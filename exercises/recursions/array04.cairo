@@ -2,8 +2,6 @@
 
 # Arrays can also contain structs
 
-# I AM NOT DONE
-
 struct Point:
     member x : felt
     member y : felt
@@ -11,7 +9,26 @@ struct Point:
 end
 
 func contains_origin{range_check_ptr : felt}(len_points : felt, points : Point*) -> (bool : felt):
-    # FILL ME
+
+    if len_points == 0:
+        %{ print("return 0") %}
+        return (0)
+    end
+
+    if points[0].x != 0:
+        %{ print("recursion call type 1") %}
+        return contains_origin(len_points - 1, points + Point.SIZE)
+    end
+    if points[0].y != 0:
+        %{ print("recursion call type 2") %}
+        return contains_origin(len_points - 1, points + Point.SIZE)
+    end
+    if points[0].z != 0:
+        %{ print("recursion call type 3") %}
+        return contains_origin(len_points - 1, points + Point.SIZE)
+    end
+
+    return (1)
 end
 
 # TESTS #
