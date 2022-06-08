@@ -3,20 +3,27 @@
 
 from starkware.cairo.common.bitwise import bitwise_and
 from starkware.cairo.common.cairo_builtins import BitwiseBuiltin
-
 # Collatz sequence are defined as follow :
 # If the number is even, divide it by two.
 # If the number is odd, triple it and add one.
 # If the number is one, stop the computation
 # https://en.wikipedia.org/wiki/Collatz_conjecture
 
-# I AM NOT DONE
-
-# TODO: write a recursive implementation of Collatz sequence that returns the nth collatz number from the seed
 # HELP: number % 2 == 0 => bitwise_and(number, 1) == 0
 
 func collatz{bitwise_ptr : BitwiseBuiltin*}(seed : felt, step : felt) -> (result : felt):
-    return (result=number)
+    if step == 0:
+        return (seed)
+    end
+    if seed == 1:
+        return (1)
+    end
+    let (modulo) = bitwise_and(seed, 1)
+    if modulo == 0:
+        return collatz(seed / 2, step - 1)
+    end
+
+    return collatz(seed * 3 + 1, step - 1)
 end
 
 # Do not change the test
